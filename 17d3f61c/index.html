@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <meta name="description" content="BSGS（大步小步）算法学习笔记前置芝士会取模运算就行啦！ 正文部分拔山盖世 $\tt{BSGS}$ 算法用于求解 $a^x \equiv b \pmod{p}, \ a \perp p$ 中 $x$ 的值。 设 $x &#x3D; ti - j$，$t &#x3D; \left \lceil \sqrt{p} \right \rceil$，$1 \le i \le t$，$0 \le j &lt; t$。 然后简单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BSGS（大步小步）算法学习笔记">
+<meta property="og:url" content="http://example.com/17d3f61c/index.html">
+<meta property="og:site_name" content="YB的小站">
+<meta property="og:description" content="BSGS（大步小步）算法学习笔记前置芝士会取模运算就行啦！ 正文部分拔山盖世 $\tt{BSGS}$ 算法用于求解 $a^x \equiv b \pmod{p}, \ a \perp p$ 中 $x$ 的值。 设 $x &#x3D; ti - j$，$t &#x3D; \left \lceil \sqrt{p} \right \rceil$，$1 \le i \le t$，$0 \le j &lt; t$。 然后简单">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-04T11:46:51.000Z">
+<meta property="article:modified_time" content="2022-01-02T07:06:03.955Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+  
+    <link rel="shortcut icon" href="/img/favicon.ico">
+  
+  <title>BSGS（大步小步）算法学习笔记 - YB的小站</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/nord.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/myself.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>YB的小站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="BSGS（大步小步）算法学习笔记">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-04 19:46" pubdate>
+        2021年11月4日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">BSGS（大步小步）算法学习笔记</h1>
+            
+            <div class="markdown-body">
+              <h1 id="BSGS（大步小步）算法学习笔记"><a href="#BSGS（大步小步）算法学习笔记" class="headerlink" title="BSGS（大步小步）算法学习笔记"></a>BSGS（大步小步）算法学习笔记</h1><h2 id="前置芝士"><a href="#前置芝士" class="headerlink" title="前置芝士"></a>前置芝士</h2><p>会取模运算就行啦！</p>
+<h2 id="正文部分"><a href="#正文部分" class="headerlink" title="正文部分"></a>正文部分</h2><p><del>拔山盖世</del> $\tt{BSGS}$ 算法用于求解 $a^x \equiv b \pmod{p}, \ a \perp p$ 中 $x$ 的值。</p>
+<p>设 $x = ti - j$，$t = \left \lceil \sqrt{p} \right \rceil$，$1 \le i \le t$，$0 \le j &lt; t$。</p>
+<p>然后简单化一下：</p>
+<script type="math/tex; mode=display">
+a^{ti-j} \equiv b \ \ \ \ \Rightarrow \ \ \ \ a^{ti} \equiv ba^j \pmod{p}</script><p>因为 $ba^j$ 只有 $t$ 个取值，可以先枚举 $j$ ，求出所有的 $ba^j$ 并使用 $\tt{Hash}$ 或 $\tt{map}$ 存储，然后枚举 $i$，求出 $a^{ti}$，查找是否有与之相等的 $ba^j$ ，若有则 $ti-j$ 即为合法的 $x$ 值。不算  $\tt{Hash}$ 或 $\tt{map}$ 的化，复杂度 $\Theta(\sqrt{p})$。</p>
+<h4 id="CODE"><a href="#CODE" class="headerlink" title="CODE"></a>CODE</h4><figure class="highlight c++"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Pow</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> k, <span class="hljs-keyword">int</span> p, <span class="hljs-keyword">int</span> r = <span class="hljs-number">1</span>)</span> </span>&#123;<br>	<span class="hljs-keyword">for</span> (; k; k &gt;&gt;= <span class="hljs-number">1</span>, x = x * x % p) &#123;<br>		<span class="hljs-keyword">if</span> (k &amp; <span class="hljs-number">1</span>) r = r * x % p;<br>	&#125;<br>	<span class="hljs-keyword">return</span> r;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bsgs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b, <span class="hljs-keyword">int</span> p)</span> </span>&#123;<br>	b %= p, a %= p;<br>	map&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; m;<br>	<span class="hljs-keyword">int</span> t = <span class="hljs-built_in">ceil</span>(<span class="hljs-built_in">sqrt</span>(p)), k = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; t; i ++, k = k * a % p) &#123;<br>		m[k * b % p] = i;<br>	&#125;<br>	a = <span class="hljs-built_in">Pow</span>(a, t, p), k = a;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= t; i ++, k = k * a % p) &#123;<br>		<span class="hljs-keyword">if</span> (m.<span class="hljs-built_in">find</span>(k) == m.<span class="hljs-built_in">end</span>()) <span class="hljs-keyword">continue</span>;<br>		<span class="hljs-keyword">if</span> (i * t - m[k] &gt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> i * t - m[k];<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<h2 id="exBSGS"><a href="#exBSGS" class="headerlink" title="exBSGS"></a>exBSGS</h2><p>使用 $\tt{BSGS}$ 有一个限制条件，即 $a \perp p$，$\tt{exBSGS}$ 就是为了解决这个问题。</p>
+<p>考虑  $a$、$p$  不互质时怎么做，设 $g = \gcd(a,p)$，$a = a’g$，$p=p’g$，易得 ：</p>
+<script type="math/tex; mode=display">
+a'^xg^x-kp'g=b</script><script type="math/tex; mode=display">
+\Rightarrow g \left( a'^x g^{x-1} - kp'\right) = b</script><script type="math/tex; mode=display">
+\Rightarrow g \mid b</script><p>得到有解的条件：$g \mid b$。 然后继续瞎搞一波：</p>
+<script type="math/tex; mode=display">
+a^x \equiv b \pmod{p}</script><script type="math/tex; mode=display">
+\Rightarrow \dfrac{a^x}{g} \equiv \dfrac{b}{g} \pmod{p'}</script><script type="math/tex; mode=display">
+\Rightarrow a' \times a^{x -1} \equiv \dfrac{b}{g} \pmod{p'}</script><script type="math/tex; mode=display">
+\Rightarrow a^{x-1} \equiv \dfrac{b}{g} \times a'^{-1} \pmod{p'}</script><p>每次使 $b = \dfrac{b}{g} \times a’^{-1} $，$p = p’$，缩小问题范围，一直做到 $a$，$p$ 互质即可 $\tt{BSGS}$ 求解。注意 $a$ 的指数变为 $x-1$。 </p>
+<h4 id="CODE-1"><a href="#CODE-1" class="headerlink" title="CODE"></a>CODE</h4><figure class="highlight c++"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Pow</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> k, <span class="hljs-keyword">int</span> p, <span class="hljs-keyword">int</span> r = <span class="hljs-number">1</span>)</span> </span>&#123;<br>	<span class="hljs-keyword">for</span> (; k; k &gt;&gt;= <span class="hljs-number">1</span>, x = x * x % p) &#123;<br>		<span class="hljs-keyword">if</span> (k &amp; <span class="hljs-number">1</span>) r = r * x % p;<br>	&#125;<br>	<span class="hljs-keyword">return</span> r;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b, <span class="hljs-keyword">int</span> &amp;x, <span class="hljs-keyword">int</span> &amp;y)</span> </span>&#123;<br>	<span class="hljs-keyword">if</span> (b == <span class="hljs-number">0</span>) &#123;x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>; <span class="hljs-keyword">return</span>;&#125;;<br>	<span class="hljs-built_in">exgcd</span>(b, a % b, x, y);<br>    <span class="hljs-keyword">int</span> t = y; y = x - (a / b) * y, x = t;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Inv</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> p, <span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> b = <span class="hljs-number">0</span>)</span> </span>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">exgcd</span>(x, p, a, b), (a % p + p) % p;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">gcd</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b)</span> </span>&#123;<br>	<span class="hljs-keyword">return</span> (!b ? a : <span class="hljs-built_in">gcd</span>(b, a % b));<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bsgs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b, <span class="hljs-keyword">int</span> p)</span> </span>&#123;<br>	b %= p, a %= p;<br>	map&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; m;<br>	<span class="hljs-keyword">int</span> t = <span class="hljs-built_in">ceil</span>(<span class="hljs-built_in">sqrt</span>(p)), k = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; t; i ++, k = k * a % p) &#123;<br>		m[k * b % p] = i;<br>	&#125;<br>	a = <span class="hljs-built_in">Pow</span>(a, t, p), k = a;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= t; i ++, k = k * a % p) &#123;<br>		<span class="hljs-keyword">if</span> (m.<span class="hljs-built_in">find</span>(k) == m.<span class="hljs-built_in">end</span>()) <span class="hljs-keyword">continue</span>;<br>		<span class="hljs-keyword">if</span> (i * t - m[k] &gt;= <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> i * t - m[k];<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">exbsgs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a, <span class="hljs-keyword">int</span> b, <span class="hljs-keyword">int</span> p)</span> </span>&#123;<br>	b %= p, a %= p;<br>	<span class="hljs-keyword">if</span>(b == <span class="hljs-number">1</span> || p == <span class="hljs-number">1</span>)<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">int</span> g = <span class="hljs-built_in">gcd</span>(a, p), s = <span class="hljs-number">0</span>, c = <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">for</span> (; g &gt; <span class="hljs-number">1</span>; g = <span class="hljs-built_in">gcd</span>(a, p)) &#123;<br>		<span class="hljs-keyword">if</span> (b % g != <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>		b /= g, p /= g, (c *= a / g) %= p, s ++;<br>		<span class="hljs-keyword">if</span> (b == c) <span class="hljs-keyword">return</span> s;<br>	&#125;<br>	<span class="hljs-keyword">int</span> res = <span class="hljs-built_in">bsgs</span>(a, b * <span class="hljs-built_in">Inv</span>(c, p), p);<br>	<span class="hljs-keyword">return</span> (~res ? res + s : res);<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p><strong>参考</strong>：<a target="_blank" rel="noopener" href="https://oi-wiki.org/math/number-theory/bsgs/">OI Wiki</a>，<a target="_blank" rel="noopener" href="https://mancityfc.blog.luogu.org/solution-p3846">https://mancityfc.blog.luogu.org/solution-p3846</a>，<a target="_blank" rel="noopener" href="http://ccqh.cf/archives/173/">cqh’s blog</a> 。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/9dfc3d62/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">P3306 题解</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/c15690d7/">
+                        <span class="hidden-mobile">exgcd（扩展欧几里得）学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'YBWA/commit-utterance');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
