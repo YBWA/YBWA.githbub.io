@@ -16,23 +16,23 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="link hzy 有一个力量值，有 n 个洞穴，hzy 可以以任意顺序探索洞穴，探索时一个洞穴不能必须打完里面的怪物才能去探索另外的洞穴。 第 i 个洞穴里有 k_i 个怪物，hzy 必须按顺序打这 k_i 个怪物。hzy 的力量必须严格大于怪兽的防御值 a_{i,j}，才能打败这个怪兽，打败一个怪兽后 hzy 的力量值会加 1。问 hzy刚开始至少有多少力量才能探索完所有洞穴。 1 \le n">
+  <meta name="description" content="很水的题但是第一次写二维区间 dp 代码略显恶心所以水一篇博客  link 将一个 8\times8 的棋盘进行如下分割：将原棋盘沿矩形边分割成两部分，再将其中一部分继续如此分割，割 n−1 次后得到 n 块矩形棋盘。 第 $(i, j)$ 的格子有分值 $a_{i, j}$，第 $i$ 块棋盘的分值 $x_i$ 为棋盘的分值和。要求输出方差 \sigma 的最小值。 方差 \sigma &#x3D; \s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CF1561C 题解">
-<meta property="og:url" content="http://example.com/5982b441/index.html">
+<meta property="og:title" content="AcWing 321 棋盘分割题解">
+<meta property="og:url" content="http://example.com/6ca004af/index.html">
 <meta property="og:site_name" content="YB的小站">
-<meta property="og:description" content="link hzy 有一个力量值，有 n 个洞穴，hzy 可以以任意顺序探索洞穴，探索时一个洞穴不能必须打完里面的怪物才能去探索另外的洞穴。 第 i 个洞穴里有 k_i 个怪物，hzy 必须按顺序打这 k_i 个怪物。hzy 的力量必须严格大于怪兽的防御值 a_{i,j}，才能打败这个怪兽，打败一个怪兽后 hzy 的力量值会加 1。问 hzy刚开始至少有多少力量才能探索完所有洞穴。 1 \le n">
+<meta property="og:description" content="很水的题但是第一次写二维区间 dp 代码略显恶心所以水一篇博客  link 将一个 8\times8 的棋盘进行如下分割：将原棋盘沿矩形边分割成两部分，再将其中一部分继续如此分割，割 n−1 次后得到 n 块矩形棋盘。 第 $(i, j)$ 的格子有分值 $a_{i, j}$，第 $i$ 块棋盘的分值 $x_i$ 为棋盘的分值和。要求输出方差 \sigma 的最小值。 方差 \sigma &#x3D; \s">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-04-15T10:44:31.000Z">
-<meta property="article:modified_time" content="2022-04-21T01:03:27.779Z">
+<meta property="article:published_time" content="2022-04-21T13:02:50.000Z">
+<meta property="article:modified_time" content="2022-04-21T13:27:07.754Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="codeforces">
-<meta property="article:tag" content="二分">
+<meta property="article:tag" content="dp">
+<meta property="article:tag" content="区间 dp">
 <meta name="twitter:card" content="summary_large_image">
   
     <link rel="shortcut icon" href="/img/favicon.ico">
   
-  <title>CF1561C 题解 - YB的小站</title>
+  <title>AcWing 321 棋盘分割题解 - YB的小站</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -195,7 +195,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="CF1561C 题解">
+            <span class="h2" id="subtitle" title="AcWing 321 棋盘分割题解">
               
             </span>
 
@@ -205,8 +205,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-15 18:44" pubdate>
-        2022年4月15日 晚上
+      <time datetime="2022-04-21 21:02" pubdate>
+        2022年4月21日 晚上
       </time>
     </span>
   
@@ -216,7 +216,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      1.7k 字
     </span>
   
 
@@ -254,20 +254,21 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">CF1561C 题解</h1>
+            <h1 style="display: none">AcWing 321 棋盘分割题解</h1>
             
             <div class="markdown-body">
-              <blockquote>
-<p><a target="_blank" rel="noopener" href="https://codeforces.com/contest/1561/problem/C">link</a></p>
-<p>hzy 有一个力量值，有 <script type="math/tex">n</script> 个洞穴，hzy 可以以<strong>任意顺序</strong>探索洞穴，探索时一个洞穴不能必须<strong>打完</strong>里面的怪物才能去探索另外的洞穴。</p>
-<p>第 <script type="math/tex">i</script> 个洞穴里有 <script type="math/tex">k_i</script> 个怪物，hzy 必须<strong>按顺序</strong>打这 <script type="math/tex">k_i</script> 个怪物。hzy 的力量必须<strong>严格</strong>大于怪兽的防御值 <script type="math/tex">a_{i,j}</script>，才能打败这个怪兽，打败一个怪兽后 hzy 的力量值会加 <script type="math/tex">1</script>。问 hzy<br>刚开始至少有多少力量才能探索完所有洞穴。</p>
-<p><script type="math/tex">1 \le n \le 10^5</script>，<script type="math/tex">1 \le \sum k_i \le 10_5</script>，<script type="math/tex">1 \le a_{i,j} \le 10^9</script>。</p>
+              <p><del>很水的题但是第一次写二维区间 dp 代码略显恶心所以水一篇博客</del></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/323/">link</a></p>
+<p>将一个 <script type="math/tex">8\times8</script> 的棋盘进行如下分割：将原棋盘沿矩形边分割成两部分，再将<strong>其中一部分</strong>继续如此分割，割 <script type="math/tex">n−1</script> 次后得到 <script type="math/tex">n</script> 块矩形棋盘。</p>
+<p>第 $(i, j)$ 的格子有分值 $a_{i, j}$，第 $i$ 块棋盘的分值 $x_i$ 为棋盘的分值和。要求输出方差 <script type="math/tex">\sigma</script> 的最小值。</p>
+<p>方差 <script type="math/tex">\sigma = \sqrt{\dfrac{\sum_{i=1}^n (x_i - \bar{x})^2}{n}}</script>，平均值 $\bar{x}=\dfrac{\sum_{i=1}^n x_i}{n}$。</p>
+<p>$1 \le n \le 15$，$0 \le a_{i, j} \le 100$。</p>
 </blockquote>
-<p>显然这题要用 useful 的算法！</p>
-<p>对于每个洞穴，我们记两个值，探索完后 hzy 可以增加的力量值和最少需要多少力量值才能探索完。后者可以用 <script type="math/tex">k_i\log k_i</script> 的二分答案求出。</p>
-<p>对于 <script type="math/tex">n</script> 个洞穴按照最少需要的力量值排序，然后再次二分，这次直接二分询问的答案。</p>
-<p>总时间复杂度 <script type="math/tex">O(n\log n + \sum k_i \log k_i)</script></p>
-<h2 id="CODE"><a href="#CODE" class="headerlink" title="CODE"></a>CODE</h2><figure class="highlight c++"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>, f = <span class="hljs-number">0</span>; <span class="hljs-keyword">char</span> c = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">isdigit</span>(c)) f |= c == <span class="hljs-string">&#x27;-&#x27;</span>, c = <span class="hljs-built_in">getchar</span>();<br>    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">isdigit</span>(c)) x = (x &lt;&lt; <span class="hljs-number">3</span>) + (x &lt;&lt; <span class="hljs-number">1</span>) + (c &amp; <span class="hljs-number">15</span>), c = <span class="hljs-built_in">getchar</span>();<br>    <span class="hljs-keyword">return</span> f ? -x : x;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> N 100010</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF (1000000010)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> fi first </span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> se second</span><br><br><span class="hljs-keyword">int</span> n, b[N];<br>pair&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; a[N];<br><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">check</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) &#123;<br>        <span class="hljs-keyword">if</span> (a[i].fi &gt; x) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">else</span> x += a[i].se;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">check1</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> n)</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) &#123;<br>        <span class="hljs-keyword">if</span> (b[i] &gt;= x) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">else</span> x ++;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> T = <span class="hljs-built_in">read</span>(); T --;) &#123;<br>        n = <span class="hljs-built_in">read</span>();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) &#123;<br>            a[i].se = <span class="hljs-built_in">read</span>(), a[i].fi = <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= a[i].se; j ++) &#123;<br>                b[j] = <span class="hljs-built_in">read</span>();<br>            &#125;<br>            <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>, r = INF;<br>            <span class="hljs-keyword">while</span> (l + <span class="hljs-number">1</span> &lt; r) &#123;<br>                <span class="hljs-keyword">int</span> mid = l + r &gt;&gt; <span class="hljs-number">1</span>;<br>                <span class="hljs-built_in">check1</span>(mid, a[i].se) ? r = mid : l = mid;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">check1</span>(l, a[i].se)) r = l;<br>            a[i].fi = r;<br>        &#125;<br>        <span class="hljs-built_in">sort</span>(a + <span class="hljs-number">1</span>, a + n + <span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>, r = INF;<br>        <span class="hljs-keyword">while</span> (l + <span class="hljs-number">1</span> &lt; r) &#123;<br>            <span class="hljs-keyword">int</span> mid = l + r &gt;&gt; <span class="hljs-number">1</span>;<br>            <span class="hljs-built_in">check</span>(mid) ? r = mid : l = mid;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">check</span>(l)) r = l;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, r);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>$f_{d, i, j, k, l}$ 表示 $(i, j)$ 到 $(k, l)$ 的矩形棋盘分割 $d$ 次的最小 $\sigma ^ 2 n$。</p>
+<p>区间 dp 需要先枚举长度才能保证正确性。</p>
+<p>各种原因导致我的代码极丑。</p>
+<figure class="highlight c++"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>, f = <span class="hljs-number">0</span>; <span class="hljs-keyword">char</span> c = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (!<span class="hljs-built_in">isdigit</span>(c)) f |= c == <span class="hljs-string">&#x27;-&#x27;</span>, c = <span class="hljs-built_in">getchar</span>();<br>    <span class="hljs-keyword">while</span> (<span class="hljs-built_in">isdigit</span>(c)) x = (x &lt;&lt; <span class="hljs-number">3</span>) + (x &lt;&lt; <span class="hljs-number">1</span>) + (c &amp; <span class="hljs-number">15</span>), c = <span class="hljs-built_in">getchar</span>();<br>    <span class="hljs-keyword">return</span> f ? -x : x;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> rep(i, a, b) for (int i = (a); i &lt;= (b); i ++)</span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> N 10</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> M 20</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF 1e9</span><br><br><span class="hljs-keyword">int</span> n, m, a[N][N], s[N][N];<br><span class="hljs-keyword">double</span> f[M][N][N][N][N];<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    n = <span class="hljs-number">8</span>, m = <span class="hljs-built_in">read</span>() - <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">rep</span>(i, <span class="hljs-number">1</span>, n) <span class="hljs-built_in">rep</span>(j, <span class="hljs-number">1</span>, n) s[i][j] = a[i][j] = <span class="hljs-built_in">read</span>();<br>    <span class="hljs-built_in">rep</span>(i, <span class="hljs-number">1</span>, n) <span class="hljs-built_in">rep</span>(j, <span class="hljs-number">1</span>, n) s[i][j] += s[i - <span class="hljs-number">1</span>][j] + s[i][j - <span class="hljs-number">1</span>] - s[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>];<br><br>    <span class="hljs-keyword">double</span> bX = <span class="hljs-number">1.0</span> * s[n][n] / (m + <span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">rep</span>(i, <span class="hljs-number">1</span>, n) <span class="hljs-built_in">rep</span>(j, <span class="hljs-number">1</span>, n) <span class="hljs-built_in">rep</span>(k, i, n) <span class="hljs-built_in">rep</span>(l, j, n) &#123;<br>        f[<span class="hljs-number">0</span>][i][j][k][l] = s[k][l] - s[i - <span class="hljs-number">1</span>][l] - s[k][j - <span class="hljs-number">1</span>] + s[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>] - bX;<br>        f[<span class="hljs-number">0</span>][i][j][k][l] = f[<span class="hljs-number">0</span>][i][j][k][l] * f[<span class="hljs-number">0</span>][i][j][k][l];<br>    &#125;<br><br>    <span class="hljs-built_in">rep</span>(d, <span class="hljs-number">1</span>, m) <span class="hljs-built_in">rep</span>(len, <span class="hljs-number">1</span>, n) <span class="hljs-built_in">rep</span>(i, <span class="hljs-number">1</span>, n) <span class="hljs-built_in">rep</span>(j, <span class="hljs-number">1</span>, n) &#123;<br>        <span class="hljs-keyword">auto</span> F = [&amp;f, &amp;s](<span class="hljs-keyword">int</span> d, <span class="hljs-keyword">int</span> i, <span class="hljs-keyword">int</span> j, <span class="hljs-keyword">int</span> k, <span class="hljs-keyword">int</span> l) &#123;<br>            <span class="hljs-keyword">double</span> &amp;now = f[d][i][j][k][l]; now = INF;<br>            <span class="hljs-built_in">rep</span>(a, i, k - <span class="hljs-number">1</span>) &#123;<br>                now = <span class="hljs-built_in">min</span>(now, f[d - <span class="hljs-number">1</span>][i][j][a][l] + f[<span class="hljs-number">0</span>][a + <span class="hljs-number">1</span>][j][k][l]);<br>                now = <span class="hljs-built_in">min</span>(now, f[<span class="hljs-number">0</span>][i][j][a][l] + f[d - <span class="hljs-number">1</span>][a + <span class="hljs-number">1</span>][j][k][l]);<br>            &#125;<br>            <span class="hljs-built_in">rep</span>(b, j, l - <span class="hljs-number">1</span>) &#123;<br>                now = <span class="hljs-built_in">min</span>(now, f[d - <span class="hljs-number">1</span>][i][j][k][b] + f[<span class="hljs-number">0</span>][i][b + <span class="hljs-number">1</span>][k][l]);<br>                now = <span class="hljs-built_in">min</span>(now, f[<span class="hljs-number">0</span>][i][j][k][b] + f[d - <span class="hljs-number">1</span>][i][b + <span class="hljs-number">1</span>][k][l]);<br>            &#125;<br>        &#125;;<br>        <span class="hljs-keyword">if</span> (j + len - <span class="hljs-number">1</span> &lt;= n) <span class="hljs-built_in">rep</span>(k, i, n) <span class="hljs-built_in">F</span>(d, i, j, k, j + len - <span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">if</span> (i + len - <span class="hljs-number">1</span> &lt;= n) <span class="hljs-built_in">rep</span>(l, j, n) <span class="hljs-built_in">F</span>(d, i, j, i + len - <span class="hljs-number">1</span>, l);<br>    &#125;<br><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%.3lf\n&quot;</span>, <span class="hljs-built_in">sqrt</span>(f[m][<span class="hljs-number">1</span>][<span class="hljs-number">1</span>][n][n] / (m + <span class="hljs-number">1</span>)));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
             </div>
             <hr>
             <div>
@@ -284,9 +285,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/codeforces/">codeforces</a>
+                      <a class="hover-with-bg" href="/tags/dp/">dp</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E4%BA%8C%E5%88%86/">二分</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8C%BA%E9%97%B4-dp/">区间 dp</a>
                     
                   </div>
                 
@@ -303,18 +304,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/5a57f70d/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">关于 chichi</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/9fedbdc6/">
-                        <span class="hidden-mobile">CF1561E 题解</span>
+                      <a href="/5a57f70d/">
+                        <span class="hidden-mobile">关于 chichi</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
