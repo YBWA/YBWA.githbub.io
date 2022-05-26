@@ -28,7 +28,7 @@
   
   <title>YB的小站</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
 
 
@@ -201,6 +201,62 @@
               <div class="col-12 col-md-10 m-auto">
                 
 
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/970b0166/" target="_self">
+          namespace io
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/970b0166/" target="_self">
+          
+          
+            
+          
+          更快的输入输出！然而我没有写输出
+看别人的 namespace io 都是一大坨，我自己精简了一下。
+支持任意整形、字符串读入。（io::read&lt;/*想要读的类型*/&gt;()）
+原理很简单，在进行文件读入时 $\tt{fread}$ 一次读入大量文件，具有较快的速度。
+由于 $\tt{fread}$ 是读文件的，所以在本地比较麻烦，不想用文件读入时可以把 $\tt{gc}$  改为 $
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-18 09:49" pubdate>
+              2021-11-18
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E6%A8%A1%E6%9D%BF/">模板</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B0%B4/">水</a>
+            
+              <a href="/tags/%E8%AF%AD%E6%B3%95/">语法</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
 
   <div class="row mx-auto index-card">
     
@@ -658,11 +714,11 @@ $1 \le n,m \le 100$，$1 \le a_{i, j} \le 10^5$。
             
               <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/">网络流</a>
             
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81-24-%E9%A2%98/">网络流 24 题</a>
+            
               <a href="/tags/%E6%9C%80%E5%A4%A7%E6%B5%81/">最大流</a>
             
               <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2/">最小割</a>
-            
-              <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81-24-%E9%A2%98/">网络流 24 题</a>
             
           </div>
         
@@ -723,62 +779,6 @@ $1 \le n,m \le 100$，$1 \le a_{i, j} \le 10^5$。
               <a href="/tags/%E6%9C%80%E5%A4%A7%E6%B5%81/">最大流</a>
             
               <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2/">最小割</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/8bcd6f2e/" target="_self">
-          CF1383D 题解
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/8bcd6f2e/" target="_self">
-          
-          
-            
-          
-          CF1383D 题解题意给定一个长度为 $n$ 的序列 $a$，选出 $a$ 中的若干个元素使得和为零。
-数据范围 ：$1 \le n \le 10^6$，$i - n \le a_i \le 1 - i$
-题解构造题，$i - n \le a_i \le 1 - i$，即 $1 \le i - a_i \le n$ 。我们让 $i$ 向 $i - a_i$ 连边，这样显然形成环的时候和就是 $0
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-10-30 09:41" pubdate>
-              2021-10-30
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
-            
-              <a href="/tags/codeforces/">codeforces</a>
-            
-              <a href="/tags/%E6%9E%84%E9%80%A0/">构造</a>
             
           </div>
         
@@ -850,8 +850,8 @@ $1 \le n,m \le 100$，$1 \le a_{i, j} \le 10^5$。
 
   <!-- SCRIPTS -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+  <script  src="https://fastly.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -862,8 +862,8 @@ $1 \le n,m \le 100$，$1 \le a_{i, j} \le 10^5$。
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://fastly.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://fastly.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
@@ -886,7 +886,7 @@ $1 \le n,m \le 100$，$1 \le a_{i, j} \le 10^5$。
 
 
 
-  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  <script defer src="https://fastly.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
 
 
 
@@ -897,7 +897,7 @@ $1 \le n,m \le 100$，$1 \le a_{i, j} \le 10^5$。
 
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script  src="https://fastly.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
