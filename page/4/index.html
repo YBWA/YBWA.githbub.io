@@ -208,6 +208,130 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/c15690d7/" target="_self">
+          exgcd（扩展欧几里得）学习笔记
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/c15690d7/" target="_self">
+          
+          
+            
+          
+          exgcd（扩展欧几里得）学习笔记前置芝士
+基础的模、整数运算；
+$\gcd$ 的求法，即 $\gcd(a, b) = \gcd(b,a \bmod b)$；
+裴蜀定理，二元一次方程方程 $ax+by=c$ 有解的充要条件是 $\gcd(a, b) \mid c$；
+
+正文部分$\tt{exgcd}​$ 用于求出二元一次方程 $ax+by=c​$ 的一组特解。
+首先根据裴蜀定理，可以先判掉无解的情
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-04 14:39" pubdate>
+              2021-11-04
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%A8%A1%E6%9D%BF/">模板</a>
+            
+              <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+            
+              <a href="/tags/exgcd/">exgcd</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/97155c2d/" target="_self">
+          网络流 24 题 部分水题题解
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/97155c2d/" target="_self">
+          
+          
+            
+          
+          网络流 24 题 部分题题解注：代码只给出主程序部分，网络流板子基本相同。
+方格取数问题link
+
+给定 $m$ 行 $n$ 列的网格，每个格中有数，你可以取任意个格子的数，但不能同时取相邻的格子（四联通），求取出数的和的最大值。
+$1 \le n,m \le 100$，$1 \le a_{i, j} \le 10^5$。
+
+考虑相邻的格子有什么性质，容易发现相邻的格子横纵坐标和的奇偶性相反。又因
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-11-02 18:15" pubdate>
+              2021-11-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/">网络流</a>
+            
+              <a href="/tags/%E6%9C%80%E5%A4%A7%E6%B5%81/">最大流</a>
+            
+              <a href="/tags/%E6%9C%80%E5%B0%8F%E5%89%B2/">最小割</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E6%B5%81-24-%E9%A2%98/">网络流 24 题</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/b98db1c/" target="_self">
           网络流学习笔记
         </a>
@@ -639,114 +763,6 @@ DAY 0.900：48，被热醒
               <a href="/tags/dfs/">dfs</a>
             
               <a href="/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/">并查集</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/65456/" target="_self">
-          HTR003E NOI树 题解
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/65456/" target="_self">
-          
-          
-            
-          
-          
-题目 大意：
-给出一颗 $n$ 个结点的树，每个结点上有 N，O，I 三个字母其中一个。一个 NOI 三元组”定义为：三个分别为 N，O，I 的结点，且 O 结点在 N 结点和 I 结点的路径上。求 NOI 三元组的个数，对 $10^9+7$  取模。
-
-考虑钦定一个点为根，记录以每个点为根的子树内 N 和 I 的个数，这个通过 dfs 就可以求出。在记录总共有多少个 N 和 I， 这样就可以求
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-18 14:27" pubdate>
-              2021-09-18
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
-            
-              <a href="/tags/%E8%AE%A1%E6%95%B0/">计数</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/48697/" target="_self">
-          高精度加减乘板子
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/48697/" target="_self">
-          
-          
-            
-          
-          因为是板子压得很短 /jk。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-09-15 20:37" pubdate>
-              2021-09-15
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%A8%A1%E6%9D%BF/">模板</a>
-            
-              <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6/">高精度</a>
             
           </div>
         

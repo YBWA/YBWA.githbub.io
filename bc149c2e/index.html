@@ -16,25 +16,22 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="给定一张 $n$ 个点 $m$ 条边的带边权连通无向图，其中有 $p$ 个点是特殊点。 对于每个特殊点，求出它到离它最近的其它特殊点的距离。 $1 \le n,m \le 2 \times 10^5$，$2 \le p \le n$，$1 \le w \le 10^9$  首先，在 $\tt{Dijkstra}$ 前加入所有特殊点并把最短路设置为 $0$ ，跑的时候记录每个点 $x$ 的最短路是">
+  <meta name="description" content="T1 看错了题意，以为是最短路模板，写完发现看错题意已经浪费了 40 分钟； 然后重新想了个做法，写一半卡壳了，此时已经过去 1h。心态有点小崩，满脑子都是一题没过爆蛋的场景。决定先看 T2。 T2 一眼就感觉是毒瘤数据结构，暴力打满 80 跑人。 回头看 T1 这不傻逼题，马上写完过大样例。这时过去了 2h 多。心态稍微好点了。接下来准备求稳，T3 T4 尽量写暴力。 花了一段时间整理 T3 的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="最小距离">
-<meta property="og:url" content="http://example.com/2ee54131/index.html">
+<meta property="og:title" content="CSP 2021 游记">
+<meta property="og:url" content="http://example.com/bc149c2e/index.html">
 <meta property="og:site_name" content="YB的小站">
-<meta property="og:description" content="给定一张 $n$ 个点 $m$ 条边的带边权连通无向图，其中有 $p$ 个点是特殊点。 对于每个特殊点，求出它到离它最近的其它特殊点的距离。 $1 \le n,m \le 2 \times 10^5$，$2 \le p \le n$，$1 \le w \le 10^9$  首先，在 $\tt{Dijkstra}$ 前加入所有特殊点并把最短路设置为 $0$ ，跑的时候记录每个点 $x$ 的最短路是">
+<meta property="og:description" content="T1 看错了题意，以为是最短路模板，写完发现看错题意已经浪费了 40 分钟； 然后重新想了个做法，写一半卡壳了，此时已经过去 1h。心态有点小崩，满脑子都是一题没过爆蛋的场景。决定先看 T2。 T2 一眼就感觉是毒瘤数据结构，暴力打满 80 跑人。 回头看 T1 这不傻逼题，马上写完过大样例。这时过去了 2h 多。心态稍微好点了。接下来准备求稳，T3 T4 尽量写暴力。 花了一段时间整理 T3 的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/14.png">
-<meta property="article:published_time" content="2022-03-13T07:12:00.000Z">
-<meta property="article:modified_time" content="2022-10-13T10:43:25.035Z">
+<meta property="article:published_time" content="2022-11-04T02:36:52.000Z">
+<meta property="article:modified_time" content="2022-11-04T02:48:42.121Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="图论">
-<meta property="article:tag" content="dijstra">
+<meta property="article:tag" content="游记">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/14.png">
   
     <link rel="shortcut icon" href="/img/favicon.ico">
   
-  <title>最小距离 - YB的小站</title>
+  <title>CSP 2021 游记 - YB的小站</title>
 
   <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -197,7 +194,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="最小距离">
+            <span class="h2" id="subtitle" title="CSP 2021 游记">
               
             </span>
 
@@ -207,8 +204,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-13 15:12" pubdate>
-        2022年3月13日 下午
+      <time datetime="2022-11-04 10:36" pubdate>
+        2022年11月4日 上午
       </time>
     </span>
   
@@ -218,7 +215,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      724 字
     </span>
   
 
@@ -227,7 +224,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      2 分钟
     </span>
   
 
@@ -256,24 +253,41 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">最小距离</h1>
+            <h1 style="display: none">CSP 2021 游记</h1>
             
             <div class="markdown-body">
-              <blockquote>
-<p>给定一张 $n$ 个点 $m$ 条边的带边权连通无向图，其中有 $p$ 个点是特殊点。</p>
-<p>对于每个特殊点，求出它到离它最近的其它特殊点的距离。</p>
-<p>$1 \le n,m \le 2 \times 10^5$，$2 \le p \le n$，$1 \le w \le 10^9$</p>
-</blockquote>
-<p>首先，在 $\tt{Dijkstra}$ 前加入所有特殊点并把最短路设置为 $0$ ，跑的时候记录每个点 $x$ 的最短路是从哪里转移来的（$from_x$），这样跑完后就可以得出距离每个非特殊点最近的特殊点以及这个点的编号。</p>
-<p>然后我们遍历所有边，对于这个边距离两个端点 $x$、$y$，如果 $from_x$ 和 $from_y$ 不同，就用 $dis_x+dis_y+w$ 更新 $from_x$ 和 $from_y$ 的答案。</p>
-<p>考虑这样为什么是对的，假设离特殊点 $x$ 最近的特殊点点是 $y$，在边 $(u,v)$ 时两端的 $from$ 不同，即答案应当在这条边更新，我们假设这个算法是错误的，那么答案就不能更新，那么 $from_u \neq x$ 或 $from_v \neq y$。</p>
-<ul>
-<li>$ from_v = z \neq y $ ，则 <code>dis[v][z] &lt; dis[v][y]</code> ，则 <code>dis[x][z] &lt; dis[x][y]</code>，矛盾；</li>
-<li>$ from_u = w \neq x $ ，则 <code>dis[u][w] &lt; dis[u][y]</code>，同理；</li>
+              <p>T1 看错了题意，以为是最短路模板，写完发现看错题意已经浪费了 40 分钟；</p>
+<p>然后重新想了个做法，写一半卡壳了，此时已经过去 <script type="math/tex">1h</script>。心态有点小崩，满脑子都是一题没过爆蛋的场景。决定先看 T2。</p>
+<p>T2 一眼就感觉是毒瘤数据结构，暴力打满 <script type="math/tex">80</script> 跑人。</p>
+<p>回头看 T1 这不傻逼题，马上写完过大样例。这时过去了 <script type="math/tex">2h</script> 多。心态稍微好点了。接下来准备求稳，T3 T4 尽量写暴力。</p>
+<p>花了一段时间整理 T3 的题意。准备先把 <script type="math/tex">40pts</script> 的 <script type="math/tex">\tt{Tarjan}</script> 加拓扑写了。这玩意比我想象的长，约莫一百行，写完挺顺利地过了大样例，此时还剩 <script type="math/tex">1h</script>。</p>
+<script type="math/tex; mode=display">T4$$ 先写了 $$k=1$$ 的倍增 $$\tt{LCA}$$。调完又过了 $$0.5h$$。写完冷静下来发现可以直接把链拎出来 $$\tt{dp}$$，$$O(n^2)$$ 可以拿好多分。赶紧写了一波，发现大样例 2 过不去，这时还是 $$10min$$，手模了一下发现可以跳到链外面去，md 假了。直接自闭。
+
+---
+
+出考场听 cqh, zyy 都过了 T2，一想秒了。焯。
+
+T3 的条件相当于出度都为 $$1$$，这么显然的结论居然他妈没想出来，我是什么品种的智障。
+
+T4 听巨佬们说可以直接倍增，把转移写成矩阵的形式，处理一下 $$k=3$$ 的情况，就可以过了。。。
+
+不过还好考场上没删 $$\tt{dp}$$，在 $$k=2$$ 的时候是正确的可以多骗很多分。
+
+预计是 $$100+80+40+40=260$$？
+
+感觉策略有大问题。想题的时间很少，几乎所有时间都在写部分分，感觉是 T1 写了好久被吓住了 /qd，不然 $$300$$ 肯定能上。
+
+要多想。
+
+---
+
+交了一波：
+
+- INFOJ $$100+85+40+48=273</script><ul>
+<li>LUOGU <script type="math/tex">100+85+40+48=273</script></li>
 </ul>
-<p><img src="\img\14.png" srcset="/img/loading.gif" lazyload alt=""><br>（第一种情况的图）</p>
-<p>然后就没了。</p>
-<figure class="highlight c++"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> int long long</span><br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>, f = <span class="hljs-number">0</span>; <span class="hljs-keyword">char</span> c = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span> (!<span class="hljs-built_in">isdigit</span>(c)) f |= c == <span class="hljs-string">&#x27;-&#x27;</span>, c = <span class="hljs-built_in">getchar</span>();<br>	<span class="hljs-keyword">while</span> (<span class="hljs-built_in">isdigit</span>(c)) x = (x &lt;&lt; <span class="hljs-number">3</span>) + (x &lt;&lt; <span class="hljs-number">1</span>) + (c &amp; <span class="hljs-number">15</span>), c = <span class="hljs-built_in">getchar</span>();<br>	<span class="hljs-keyword">return</span> f ? -x : x;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> N 400010</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INF (1e17)</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> PII pair<span class="hljs-meta-string">&lt;int, int&gt;</span></span><br><br><span class="hljs-keyword">int</span> n, m, p, a[N], hd[N], cnt = <span class="hljs-number">1</span>, dis[N], from[N], res[N], vis[N];<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> &#123;</span><br>	<span class="hljs-keyword">int</span> y, v, to;<br>	<span class="hljs-built_in">node</span>(<span class="hljs-keyword">int</span> _y = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> _v = <span class="hljs-number">0</span>, <span class="hljs-keyword">int</span> _to = <span class="hljs-number">0</span>) &#123;<br>		y = _y, v = _v, to = _to;<br>	&#125;<br>&#125;e[N];<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addE</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">int</span> v)</span> </span>&#123;<br>	e[++ cnt] = <span class="hljs-built_in">node</span>(y, v, hd[x]), hd[x] = cnt;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Dij</span><span class="hljs-params">()</span> </span>&#123;<br>	priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; pr;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) dis[i] = INF;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= p; i ++) &#123;<br>		dis[a[i]] = <span class="hljs-number">0</span>, from[a[i]] = a[i];<br>		pr.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(<span class="hljs-number">0</span>, a[i]));<br>	&#125;<br>	<span class="hljs-keyword">while</span> (!pr.<span class="hljs-built_in">empty</span>()) &#123;<br>		<span class="hljs-keyword">int</span> x = pr.<span class="hljs-built_in">top</span>().second; pr.<span class="hljs-built_in">pop</span>();<br>		<span class="hljs-keyword">if</span> (vis[x]) <span class="hljs-keyword">continue</span>; <span class="hljs-keyword">else</span> vis[x] = <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = hd[x]; i; i = e[i].to) &#123;<br>			<span class="hljs-keyword">int</span> y = e[i].y, v = e[i].v;<br>			<span class="hljs-keyword">if</span> (dis[x] + v &lt; dis[y]) &#123;<br>				dis[y] = dis[x] + v;<br>				from[y] = from[x];<br>				pr.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(dis[y], y));<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	n = <span class="hljs-built_in">read</span>(), m = <span class="hljs-built_in">read</span>(), p = <span class="hljs-built_in">read</span>();<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= p; i ++) &#123;<br>		a[i] = <span class="hljs-built_in">read</span>();<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i ++) &#123;<br>		<span class="hljs-keyword">int</span> x = <span class="hljs-built_in">read</span>(), y = <span class="hljs-built_in">read</span>(), v = <span class="hljs-built_in">read</span>();<br>		<span class="hljs-built_in">addE</span>(x, y, v), <span class="hljs-built_in">addE</span>(y, x, v);<br>	&#125;<br>	<span class="hljs-built_in">Dij</span>();<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) res[i] = INF;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= cnt; i += <span class="hljs-number">2</span>) &#123;<br>		<span class="hljs-keyword">int</span> x = e[i ^ <span class="hljs-number">1</span>].y, y = e[i].y, v = e[i].v;<br>		<span class="hljs-keyword">if</span> (from[x] == from[y]) <span class="hljs-keyword">continue</span>;<br>		res[from[x]] = <span class="hljs-built_in">min</span>(res[from[x]], dis[x] + dis[y] + v);<br>		res[from[y]] = <span class="hljs-built_in">min</span>(res[from[y]], dis[x] + dis[y] + v);<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= p; i ++) &#123;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lld &quot;</span>, res[a[i]]);<br>	&#125;<br>	<span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;&quot;</span>);<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+<p>没有挂分，T4 比现象的高，民间数据排名一百出头，还行。</p>
+
             </div>
             <hr>
             <div>
@@ -282,7 +296,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E9%A2%98%E8%A7%A3/">题解</a>
+                      <a class="hover-with-bg" href="/categories/%E6%B0%B4/">水</a>
                     
                   </div>
                 
@@ -290,9 +304,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
-                    
-                      <a class="hover-with-bg" href="/tags/dijstra/">dijstra</a>
+                      <a class="hover-with-bg" href="/tags/%E6%B8%B8%E8%AE%B0/">游记</a>
                     
                   </div>
                 
@@ -309,9 +321,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/94734546/">
+                      <a href="/9a1698be/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CF1654CDE 题解</span>
+                        <span class="hidden-mobile">蠢 蠢 的 死 法</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -319,8 +331,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/cb8706ba/">
-                        <span class="hidden-mobile">一道 sb 题的 sb 做法</span>
+                      <a href="/384de298/">
+                        <span class="hidden-mobile">tarjan 与图的联通性</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
