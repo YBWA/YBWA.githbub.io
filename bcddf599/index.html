@@ -1,0 +1,555 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=light>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154db">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <meta name="description" content="link 给定一棵有根树，每个点有颜色，每次加一个叶子，询问叶子到根的路径是不是所有颜色出现次数都是 3 的倍数，不是的话再问是不是只有一个颜色不是 3 的倍数，是的话输出这个颜色。 n \le 10^6，m\le 2\times 10^6。  考虑如果是 2 的倍数，那么可以给每个颜色随机一个权值然后维护到根每个叶子的异或和，异或和为 0 代表出现次数都是偶数，否则可以进行一个希的哈，查询是否">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LOJ502 题解">
+<meta property="og:url" content="http://example.com/bcddf599/index.html">
+<meta property="og:site_name" content="YB的小站">
+<meta property="og:description" content="link 给定一棵有根树，每个点有颜色，每次加一个叶子，询问叶子到根的路径是不是所有颜色出现次数都是 3 的倍数，不是的话再问是不是只有一个颜色不是 3 的倍数，是的话输出这个颜色。 n \le 10^6，m\le 2\times 10^6。  考虑如果是 2 的倍数，那么可以给每个颜色随机一个权值然后维护到根每个叶子的异或和，异或和为 0 代表出现次数都是偶数，否则可以进行一个希的哈，查询是否">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-09T13:21:03.000Z">
+<meta property="article:modified_time" content="2022-11-09T13:42:42.846Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="哈希">
+<meta property="article:tag" content="随机化">
+<meta name="twitter:card" content="summary_large_image">
+  
+    <link rel="shortcut icon" href="/img/favicon.ico">
+  
+  <title>LOJ502 题解 - YB的小站</title>
+
+  <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/highlight.js@10/styles/nord.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/myself.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>ytterbiumer</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="LOJ502 题解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-11-09 21:21" pubdate>
+        2022年11月9日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      7 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">LOJ502 题解</h1>
+            
+            <div class="markdown-body">
+              <blockquote>
+<p><a target="_blank" rel="noopener" href="https://loj.ac/p/502">link</a></p>
+<p>给定一棵有根树，每个点有颜色，每次加一个叶子，询问叶子到根的路径是不是所有颜色出现次数都是 <script type="math/tex">3</script> 的倍数，不是的话再问是不是只有一个颜色不是 <script type="math/tex">3</script> 的倍数，是的话输出这个颜色。</p>
+<p><script type="math/tex">n \le 10^6</script>，<script type="math/tex">m\le 2\times 10^6</script>。</p>
+</blockquote>
+<p>考虑如果是 <script type="math/tex">2</script> 的倍数，那么可以给每个颜色随机一个权值然后维护到根每个叶子的异或和，异或和为 <script type="math/tex">0</script> 代表出现次数都是偶数，否则可以进行一个希的哈，查询是否存在这个异或值对应的颜色。</p>
+<p>然后考虑 <script type="math/tex">3</script> 的倍数，我们需要一个类似二进制异或的运算，连续三次与自己运算变为 <script type="math/tex">0</script>。类比异或不难想到<strong>三进制不进位加法。</strong>然后这题就做完了，算法的大致流程是：</p>
+<ul>
+<li>对于每个颜色随机一个三进制值，并把这个值放入哈希表；</li>
+<li>每插入一个叶子，计算出它到根的三进制不进位加法值；</li>
+<li>如果为 <script type="math/tex">0</script> 输出则所有颜色都是 <script type="math/tex">3</script> 的倍数；</li>
+<li>否则查询哈希表，寻找是否有匹配的颜色。</li>
+</ul>
+<p>这题卡空间，哈希需要链表实现<del>差评</del>，具体实现还参考了<a target="_blank" rel="noopener" href="https://loj.ac/d/50">官方题解</a>，哪里也有随机化概率的具体计算和证明。</p>
+<p>还有一个小 TIP：正常的 <code>rand()</code> 只能生成 <script type="math/tex">[0,32768]</script> 的随机数，有时候需要较大的随机数非常麻烦。从 <code>c++11</code> 开始提供了一个叫 <code>mt19937</code> 的随机数，比 <code>rand()</code> 快更随机还大。简单的用法：<br><figure class="highlight cpp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cpp"><span class="hljs-function">mt19937 <span class="hljs-title">rd</span><span class="hljs-params">(time(<span class="hljs-number">0</span>))</span></span>; <span class="hljs-comment">// 定义和播种</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">mt19937 范围是 unsigned int</span><br><span class="hljs-comment">mt19937_64 更大，unsigned long long</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">int</span> foo = <span class="hljs-built_in">rd</span>(); <span class="hljs-comment">// 生成随机数</span><br><span class="hljs-comment">/*=============================*/</span><br>uniform_int_distribution&lt;<span class="hljs-keyword">int</span>&gt;<span class="hljs-built_in">dist</span>(<span class="hljs-number">1</span>, n);<br><span class="hljs-keyword">int</span> foo = <span class="hljs-built_in">dist</span>(rd); <span class="hljs-comment">// 生成 [1,n] 的随机数</span><br></code></pre></div></td></tr></table></figure></p>
+<p>激动人心的代码时间~</p>
+<figure class="highlight cpp"><table><tr><td class="gutter hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ull unsigned long long</span><br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">int</span> <span class="hljs-title">read</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-keyword">int</span> x = <span class="hljs-number">0</span>, f = <span class="hljs-number">0</span>; <span class="hljs-keyword">char</span> c = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span> (!<span class="hljs-built_in">isdigit</span>(c)) f |= c == <span class="hljs-string">&#x27;-&#x27;</span>, c = <span class="hljs-built_in">getchar</span>();<br>	<span class="hljs-keyword">while</span> (<span class="hljs-built_in">isdigit</span>(c)) x = x * <span class="hljs-number">10</span> + (c &amp; <span class="hljs-number">15</span>), c = <span class="hljs-built_in">getchar</span>();<br>	<span class="hljs-keyword">return</span> f ? -x : x;<br>&#125;<br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> N 1000005</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> M 2000005</span><br><span class="hljs-keyword">int</span> n, m;<br>ull hs[N], val[M];<br><span class="hljs-function">mt19937_64 <span class="hljs-title">rd</span><span class="hljs-params">(time(<span class="hljs-number">0</span>))</span></span>;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">trinum</span> &#123;</span><br>	<span class="hljs-keyword">int</span> a[<span class="hljs-number">2188</span>][<span class="hljs-number">2188</span>];<br>	<span class="hljs-built_in">trinum</span>() &#123; <span class="hljs-built_in">memset</span>(a, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> a);<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2187</span>; i ++) &#123;<br>			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">2187</span>; j ++) &#123;<br>				<span class="hljs-keyword">int</span> x = i, y = j, v = <span class="hljs-number">1</span>;<br>				<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt; <span class="hljs-number">7</span>; k ++) &#123;<br>					<span class="hljs-keyword">int</span> t = (x % <span class="hljs-number">3</span> + y % <span class="hljs-number">3</span>) % <span class="hljs-number">3</span>;<br>					a[i][j] += t * v, x /= <span class="hljs-number">3</span>, y /= <span class="hljs-number">3</span>, v *= <span class="hljs-number">3</span>;<br>				&#125;<br>			&#125;<br>		&#125;<br>	&#125;<br>	<span class="hljs-function">ull <span class="hljs-title">ran</span><span class="hljs-params">()</span> </span>&#123; <span class="hljs-keyword">return</span> <span class="hljs-built_in">rd</span>() % <span class="hljs-number">12157665459056928801ull</span>; &#125;<br>	<span class="hljs-function">ull <span class="hljs-title">tor</span><span class="hljs-params">(ull x, ull y)</span> <span class="hljs-keyword">const</span> </span>&#123;<br>		ull r = <span class="hljs-number">0</span>, v = <span class="hljs-number">1</span>;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">6</span>; i ++) &#123;<br>			r += a[x % <span class="hljs-number">2187</span>][y % <span class="hljs-number">2187</span>] * v;<br>			x /= <span class="hljs-number">2187</span>, y /= <span class="hljs-number">2187</span>, v *= <span class="hljs-number">2187</span>;<br>		&#125;<br>		<span class="hljs-keyword">return</span> r;<br>	&#125;<br>&#125; trin;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">hash</span> &#123;</span><br>	<span class="hljs-keyword">int</span> a[M], nex[M], hed[M], tot, m; ull v[M];<br>	<span class="hljs-built_in">hash</span>() : <span class="hljs-built_in">m</span>(<span class="hljs-number">1999993</span>), <span class="hljs-built_in">tot</span>(<span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-built_in">memset</span>(hed, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> hed);<br>		<span class="hljs-built_in">memset</span>(nex, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> nex);<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(ull x, <span class="hljs-keyword">int</span> i)</span> </span>&#123;<br>		a[++ tot] = i;<br>		v[tot] = x;<br>		nex[tot] = hed[x % m];<br>		hed[x % m] = tot;<br>	&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">ask</span><span class="hljs-params">(ull x)</span> </span>&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = hed[x % m]; i; i = nex[i]) &#123;<br>			<span class="hljs-keyword">if</span> (v[i] == x) <span class="hljs-keyword">return</span> a[i];<br>		&#125;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">-2</span>;<br>	&#125;<br>&#125; hat;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>	<span class="hljs-built_in">srand</span>(<span class="hljs-built_in">time</span>(<span class="hljs-literal">NULL</span>));<br>	n = <span class="hljs-built_in">read</span>(), m = <span class="hljs-built_in">read</span>();<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++) &#123;<br>		hs[i] = trin.<span class="hljs-built_in">ran</span>();<br>		hat.<span class="hljs-built_in">add</span>(hs[i], i);<br>		hat.<span class="hljs-built_in">add</span>(trin.<span class="hljs-built_in">tor</span>(hs[i], hs[i]), i);<br>	&#125;<br>	val[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>, la = <span class="hljs-number">0</span>; i &lt;= m; i ++) &#123;<br>		<span class="hljs-keyword">int</span> u = <span class="hljs-built_in">read</span>() ^ la, fa = <span class="hljs-built_in">read</span>() ^ la;<br>		val[i] = trin.<span class="hljs-built_in">tor</span>(hs[u], val[fa]);<br>		la = val[i] ? hat.<span class="hljs-built_in">ask</span>(val[i]) : <span class="hljs-number">-1</span>;<br>		<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, la);<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></div></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%A2%98%E8%A7%A3/">题解</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%93%88%E5%B8%8C/">哈希</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96/">随机化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/93d9d0d9/">
+                        <span class="hidden-mobile">希沃白板 の 弔图们</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'YBWA/commit-utterance');
+      s.setAttribute('issue-term', 'title');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://fastly.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://fastly.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://fastly.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://fastly.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://fastly.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://fastly.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://fastly.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://fastly.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://fastly.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://fastly.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
